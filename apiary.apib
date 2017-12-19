@@ -1,0 +1,165 @@
+FORMAT: 1A
+HOST: https://api.previo.cz/app
+
+# Housekeeping App REST
+
+## Allowed HTTPs requests:
+- `GET` - Get a resource or list of resources
+- `POST` - To create resource
+- `PUT` - Update resource
+- `DELETE` - To delete resource
+
+## Common status codes:
+- `200` - success
+- `204` - success on DELETE (no content)
+- `400` – something's wrong with request (check error message and display to user)
+- `401` - missing or invalid authentication
+- `5XX` – there's something wrong with server.
+
+## Errors
+
+Every response could return an error. When this happens status code is `4XX` or `5XX` and response body contains JSON formatted response like this:
+
+```
+{
+    error: Failed to get data (string,required)
+}
+```
+
+##Headers
+```
+X-Previo-Language-ID: {lanId} (In which language the application is running)
+X-Previo-App-ID: 2
+X-Previo-Hotel-ID: {hotId}
+```
+
+## User info [/user]
+
+### Get user info [GET /user{?versionCode}{?os}]
+
++ Parameters
+    + versionCode: 1111 (number, required) - Version code of application build
+    + os: android (string, required) - Type of operating system (ios, android)
+
++ Request (application/json)
+    
++ Response 200 (application/json)
+    + Attributes (UserInfo)
+
+
+## List of rooms [/hotel-room]
+
+### Get room list [GET /hotel-room]
+- Return all assigned rooms for user, it user no assigned rooms will return all rooms at hotel.
+
++ Request (application/json)
+    
++ Response 200 (application/json)
+    + Attributes (array[Room])
+    
+### Get room [GET /hotel-room{?objId}]
+- `In development` 
++ Parameters
+    + objId: 2342 (number, required) - The unique identifier of the room
+
++ Request (application/json)
+    
++ Response 200 (application/json)
+    + Attributes (Room)
+
+### Set room clean status [PUT /hotel-room-status/{?objId}{?ocsId}]
+
++ Parameters
+    + objId: 2342 (number, required) - The unique identifier of the room
+    + ocsId: 1 (number, required) - The unique identifier of status for room (1 - untidy, 2 - tidy, 3 - inspection)
+    
++ Request (application/json)
+
++ Response 200 (application/json)
+
+## Fault list for room [/hotel-room-fault]
+
+### Get fault list [GET /hotel-room-fault/{?objId}]
+- Return fault order by created, but resolved defects only with the old resolved two days.
+
++ Parameters
+    + objId: 654567 (number,required) - The unique identifier for room
+
++ Request (application/json)
+    
++ Response 200 (application/json)
+    + Attributes (array[Fault])
+
+### Add new fault [POST /hotel-room-fault/{?objId}]
+
++ Parameters
+    + objId: 654567 (number,required) - The unique identifier for room
+
++ Request (application/json)
+    + Attributes (Fault)
+    
++ Response 200 (application/json)
+    + Attributes (Fault)
+
+### Set room fault status [PUT /hotel-fault-status/{?fauId}{?fasId}]
+
++ Parameters
+    + fauId: 23412 (number, required) - The unique identifier of fault
+    + fasId: 1 (number, required) - Fault status (1-fixed, 2-not fixed, 3-beeing repaired)
+    
++ Request (application/json)
+
++ Response 200 (application/json)
+
+### Delete fault [DELETE /hotel-room-fault{?fauId}]
+
++ Parameters
+    + fauId: 654567 (number,required) - The unique identifier for fault
+
++ Request (application/json)
+    
++ Response 200 (application/json)
+
+## List of hotels [/hotel]
+
+### Get hotel list [GET /hotel]
+
++ Request (application/json)
+    
++ Response 200 (application/json)
+    + Attributes (array[Hotel])
+
+## Data Structure
+
+## UserInfo
++ name: Kubínos (string, required) - Username login of user
++ lanId: 1 (number, required) - The unique identifier for language, which user has set in Previo
++ paysApp: true (boolean, required) - If hotel pay for Housekeeping module
++ versionSupported: true (boolean, required) - Is application version supported
++ newerVersion: true (boolean, required) - Is newer aplication version
+
+## Room
++ objId: 2342 (number, required) - The unique identifier of the room
++ name: Deluxe 101 (string, required) - Name of the room
++ isOnGoing: true (boolean, required) - There is a reservation overlapping whole day
++ isCheckOut: true (boolean, required) - There is a reservation ending today and guests allready checked out
++ isCheckIn: false (boolean, required) - There is a reservation starting today and guests allready checked in
++ checkOut: `2017-01-01T00:00:00` (string, optional) - Date of todays check-out (ISO 8601)
++ checkIn: `2017-01-01T00:00:00` (string, optional) - Date of todays check-in (ISO 8601)
++ ocsId: 1 (number, required) - The unique identifier for room state (1 - untidy, 2 - tidy, 3 - inspection) 
++ numOfFaults: 2 (number, required) - Returns count of fault on room at state not fixed and beeing repaired
++ guestName: Inženýrka Tejfarová (string, optional) - If there is ongoing reservation, guestName will be the first guest of this reservation with name, otherwise this will be name of guest of the first reservation in the future
++ guestCount: 4 (number, optional) - Number of guests (If there is ongoing reservation, this will be guest cout of this reservation, otherwise this will be guest count of the first reservation in the future) 
++ note: Vyzdobit pokoj růžemi (string, optional) - Reservation note
+
+##Fault
++ fauId: 23412 (number, optional) - The unique identifier of fault
++ fatId: 1 (number, required) - Type od fault (1 - shower, 2 - TV, 3 - door lock, 4 - heating, 5 - light, 6 - other)
++ fasId: 1 (number, required) - Fault status (1-fixed, 2-not fixed, 3-beeing repaired)
++ description: Nejde zapnout televize, zase hosti ukradli baterie... (string, optional) - Description of fault
++ photo: data:image/gif;base64,R0lGODlhPQBEAP... (string, optional) - POST - Photo decoded in base64, GET - url https://....
++ created: `2017-01-01T00:00:00Z` (string, optional) - Date of created fault (ISO 8601)
+
+## Hotel 
++ hotId: 2342 (number, required) - The unique identifier of the hotel
++ name: Kubínos (string, required) - Name of the hotel
