@@ -1,7 +1,7 @@
 FORMAT: 1A
 HOST: https://api.previo.cz/app
 
-# Housekeeping App REST
+# Housekeeping app API
 
 ## Allowed HTTPs requests:
 - `GET` - Get a resource or list of resources
@@ -58,7 +58,9 @@ X-Previo-Hotel-ID: {hotId}
     + Attributes (array[Room])
     
 ### Get room [GET /hotel-room{?objId}]
-- `In development` 
+
+`In development` 
+
 + Parameters
     + objId: 2342 (number, required) - The unique identifier of the room
 
@@ -69,6 +71,8 @@ X-Previo-Hotel-ID: {hotId}
 
 ### Set room clean status [PUT /hotel-room-status/{?objId}{?ocsId}]
 
+`In development`
+
 + Parameters
     + objId: 2342 (number, required) - The unique identifier of the room
     + ocsId: 1 (number, required) - The unique identifier of status for room (1 - untidy, 2 - tidy, 3 - inspection)
@@ -76,6 +80,7 @@ X-Previo-Hotel-ID: {hotId}
 + Request (application/json)
 
 + Response 200 (application/json)
+    + Attributes (Room)
 
 ## Fault list for room [/hotel-room-fault]
 
@@ -92,6 +97,8 @@ X-Previo-Hotel-ID: {hotId}
 
 ### Add new fault [POST /hotel-room-fault/{?objId}]
 
+`In development`
+
 + Parameters
     + objId: 654567 (number,required) - The unique identifier for room
 
@@ -106,8 +113,6 @@ X-Previo-Hotel-ID: {hotId}
 + Parameters
     + fauId: 23412 (number, required) - The unique identifier of fault
     + fasId: 1 (number, required) - Fault status (1-fixed, 2-not fixed, 3-beeing repaired)
-    
-+ Request (application/json)
 
 + Response 200 (application/json)
 
@@ -123,6 +128,8 @@ X-Previo-Hotel-ID: {hotId}
 ## List of hotels [/hotel]
 
 ### Get hotel list [GET /hotel]
+
+`In development`
 
 + Request (application/json)
     
