@@ -47,9 +47,9 @@ X-Previo-Hotel-ID: {hotId}
     + Attributes (UserInfo)
 
 
-## List of rooms [/hotel-room]
+## List of rooms [/hotel/room]
 
-### Get room list [GET /hotel-room]
+### Get room list [GET /hotel/room]
 - Return all assigned rooms for user, it user no assigned rooms will return all rooms at hotel.
 
 + Request (application/json)
@@ -57,7 +57,7 @@ X-Previo-Hotel-ID: {hotId}
 + Response 200 (application/json)
     + Attributes (array[Room])
     
-### Get room [GET /hotel-room{?objId}]
+### Get room [GET /hotel/room{?objId}]
 
 `In development` 
 
@@ -69,7 +69,7 @@ X-Previo-Hotel-ID: {hotId}
 + Response 200 (application/json)
     + Attributes (Room)
 
-### Set room clean status [PUT /hotel-room-status/{?objId}{?ocsId}]
+### Set room clean status [PUT /hotel/roomStatus{?objId}{?ocsId}]
 
 `In development`
 
@@ -82,9 +82,9 @@ X-Previo-Hotel-ID: {hotId}
 + Response 200 (application/json)
     + Attributes (Room)
 
-## Fault list for room [/hotel-room-fault]
+## Fault list for room [/hote/roomFault]
 
-### Get fault list [GET /hotel-room-fault/{?objId}]
+### Get fault list [GET /hotel/roomFault{?objId}]
 - Return fault order by created, but resolved defects only with the old resolved two days.
 
 + Parameters
@@ -95,7 +95,7 @@ X-Previo-Hotel-ID: {hotId}
 + Response 200 (application/json)
     + Attributes (array[Fault])
 
-### Add new fault [POST /hotel-room-fault/{?objId}]
+### Add new fault [POST /hotel/roomFault{?objId}]
 
 `In development`
 
@@ -108,7 +108,7 @@ X-Previo-Hotel-ID: {hotId}
 + Response 200 (application/json)
     + Attributes (Fault)
 
-### Set room fault status [PUT /hotel-fault-status/{?fauId}{?fasId}]
+### Set room fault status [PUT /hotel/faultStatus{?fauId}{?fasId}]
 
 + Parameters
     + fauId: 23412 (number, required) - The unique identifier of fault
@@ -116,7 +116,7 @@ X-Previo-Hotel-ID: {hotId}
 
 + Response 200 (application/json)
 
-### Delete fault [DELETE /hotel-room-fault{?fauId}]
+### Delete fault [DELETE /hotel/roomFault{?fauId}]
 
 + Parameters
     + fauId: 654567 (number,required) - The unique identifier for fault
