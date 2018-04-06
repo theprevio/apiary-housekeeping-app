@@ -1,7 +1,7 @@
 FORMAT: 1A
 HOST: https://api.previo.cz/app
 
-# Housekeeping app API
+# API - Housekeeping app API
 
 ## Allowed HTTPs requests:
 - `GET` - Get a resource or list of resources
@@ -42,73 +42,104 @@ X-Previo-Hotel-ID: {hotId}
     + os: android (string, required) - Type of operating system (ios, android)
 
 + Request (application/json)
+    + Headers
+    
+            X-Previo-Language-ID: 1
+            X-Previo-App-ID: 2
+            X-Previo-Hotel-ID: 14690
     
 + Response 200 (application/json)
     + Attributes (UserInfo)
 
 
-## List of rooms [/hotel/room]
+## Premises [/premise]
 
-### Get room list [GET /hotel/room]
-- Return all assigned rooms for user, it user no assigned rooms will return all rooms at hotel.
+### Get premises list [GET /premise]
+- Return all assigned premises for user, it user has no premises assigned it will return all premises at hotel with obtId = 1 (room).
 
 + Request (application/json)
+    + Headers
+    
+            X-Previo-Language-ID: 1
+            X-Previo-App-ID: 2
+            X-Previo-Hotel-ID: 14690
     
 + Response 200 (application/json)
-    + Attributes (array[Room])
+    + Attributes (array[Premise])
     
-### Get room [GET /hotel/room{?objId}]
+### Get premise [GET /premise{?objId}]
 
 `In development` 
 
 + Parameters
-    + objId: 2342 (number, required) - The unique identifier of the room
+    + objId: 2342 (number, required) - The unique identifier of the premise
 
 + Request (application/json)
+    + Headers
+    
+            X-Previo-Language-ID: 1
+            X-Previo-App-ID: 2
+            X-Previo-Hotel-ID: 14690
     
 + Response 200 (application/json)
-    + Attributes (Room)
+    + Attributes (Premise)
 
-### Set room clean status [PUT /hotel/roomStatus{?objId}{?ocsId}]
+### Set premise clean status [PUT /premise/status{?objId}{?ocsId}]
 
 `In development`
 
 + Parameters
-    + objId: 2342 (number, required) - The unique identifier of the room
-    + ocsId: 1 (number, required) - The unique identifier of status for room (1 - untidy, 2 - tidy, 3 - inspection)
+    + objId: 2342 (number, required) - The unique identifier of the premise
+    + ocsId: 1 (number, required) - The unique identifier of status for premise (1 - untidy, 2 - tidy, 3 - inspection)
     
 + Request (application/json)
+    + Headers
+    
+            X-Previo-Language-ID: 1
+            X-Previo-App-ID: 2
+            X-Previo-Hotel-ID: 14690
 
 + Response 200 (application/json)
-    + Attributes (Room)
+    + Attributes (Premise)
 
-## Fault list for room [/hote/roomFault]
+## Fault list for premise [/premise/fault]
 
-### Get fault list [GET /hotel/roomFault{?objId}]
+### Get fault list [GET /premise/fault{?objId}]
 - Return fault order by created, but resolved defects only with the old resolved two days.
 
 + Parameters
-    + objId: 654567 (number,required) - The unique identifier for room
+    + objId: 654567 (number,required) - The unique identifier for premise
 
 + Request (application/json)
+    + Headers
+    
+            X-Previo-Language-ID: 1
+            X-Previo-App-ID: 2
+            X-Previo-Hotel-ID: 14690
     
 + Response 200 (application/json)
     + Attributes (array[Fault])
 
-### Add new fault [POST /hotel/roomFault{?objId}]
+### Add new fault [POST /fault{?objId}]
 
 `In development`
 
 + Parameters
-    + objId: 654567 (number,required) - The unique identifier for room
+    + objId: 654567 (number,required) - The unique identifier for premise
 
 + Request (application/json)
+    + Headers
+    
+            X-Previo-Language-ID: 1
+            X-Previo-App-ID: 2
+            X-Previo-Hotel-ID: 14690
+
     + Attributes (Fault)
     
 + Response 200 (application/json)
     + Attributes (Fault)
 
-### Set room fault status [PUT /hotel/faultStatus{?fauId}{?fasId}]
+### Set premise fault status [PUT /fault/status{?fauId}{?fasId}]
 
 + Parameters
     + fauId: 23412 (number, required) - The unique identifier of fault
@@ -116,12 +147,17 @@ X-Previo-Hotel-ID: {hotId}
 
 + Response 200 (application/json)
 
-### Delete fault [DELETE /hotel/roomFault{?fauId}]
+### Delete fault [DELETE /fault{?fauId}]
 
 + Parameters
     + fauId: 654567 (number,required) - The unique identifier for fault
 
 + Request (application/json)
+    + Headers
+    
+            X-Previo-Language-ID: 1
+            X-Previo-App-ID: 2
+            X-Previo-Hotel-ID: 14690
     
 + Response 200 (application/json)
 
@@ -132,29 +168,65 @@ X-Previo-Hotel-ID: {hotId}
 `In development`
 
 + Request (application/json)
+    + Headers
+    
+            X-Previo-Language-ID: 1
+            X-Previo-App-ID: 2
+            X-Previo-Hotel-ID: 14690
     
 + Response 200 (application/json)
     + Attributes (array[Hotel])
+
+## System [/system]
+
+### Code books [GET /system/codeBook]
+
+`In development`
+            
++ Response 200 (application/json)
+    + Attributes (CodeBook)
+
 
 ## Data Structure
 
 ## UserInfo
 + name: Kubínos (string, required) - Username login of user
 + lanId: 1 (number, required) - The unique identifier for language, which user has set in Previo
-+ paysApp: true (boolean, required) - If hotel pay for Housekeeping module
++ paysApp: true (boolean, required) - If hotel pay for Housekeeping module - DEPRECATED
 + versionSupported: true (boolean, required) - Is application version supported
 + newerVersion: true (boolean, required) - Is newer aplication version
++ permission (Permission, required) - Listed permissions for users
 
-## Room
-+ objId: 2342 (number, required) - The unique identifier of the room
-+ name: Deluxe 101 (string, required) - Name of the room
+## Permission 
++ modules (ModulePermission, required) - Permission to view the module
++ privileges (Privileges, required) - Permission for each operations
+
+## ModulePermission
++ paysApp: true (boolean, required) - Is user pay for aplication
++ cleaning: true (boolean, required) - Permission for view into cleaning module
++ faults: true (boolean, required) - Permission for view into fault module
++ minibar: true (boolean, required) - Permission for view into minibar module
++ lossesAndFinds: true (boolean, required) - Permission for view into lost and find module
+
+## Privileges
++ services (ServicePermission, required) - Perrmission in service module
+
+## ServicePermission
++ faultsAdd: true (boolean, required) - Permission for adding new fault
++ faultsEdit: true (boolean, required) - Permission for edit fault
++ faultsRemove: true (boolean, required) - Permission for remove fault
++ roomCleanlinessEdit: true (boolean, required) - Permission for change room state (untidy, tidy, inspection)
+
+## Premise
++ objId: 2342 (number, required) - The unique identifier of the premise
++ name: Deluxe 101 (string, required) - Name of the premise
 + isOnGoing: true (boolean, required) - There is a reservation overlapping whole day
 + isCheckOut: true (boolean, required) - There is a reservation ending today and guests allready checked out
 + isCheckIn: false (boolean, required) - There is a reservation starting today and guests allready checked in
 + checkOut: `2017-01-01T00:00:00` (string, optional) - Date of todays check-out (ISO 8601)
 + checkIn: `2017-01-01T00:00:00` (string, optional) - Date of todays check-in (ISO 8601)
-+ ocsId: 1 (number, required) - The unique identifier for room state (1 - untidy, 2 - tidy, 3 - inspection) 
-+ numOfFaults: 2 (number, required) - Returns count of fault on room at state not fixed and beeing repaired
++ ocsId: 1 (number, required) - The unique identifier for premise state (1 - untidy, 2 - tidy, 3 - inspection) 
++ numOfFaults: 2 (number, required) - Returns count of fault on premise at state not fixed and beeing repaired
 + guestName: Inženýrka Tejfarová (string, optional) - If there is ongoing reservation, guestName will be the first guest of this reservation with name, otherwise this will be name of guest of the first reservation in the future
 + guestCount: 4 (number, optional) - Number of guests (If there is ongoing reservation, this will be guest cout of this reservation, otherwise this will be guest count of the first reservation in the future) 
 + note: Vyzdobit pokoj růžemi (string, optional) - Reservation note
@@ -170,3 +242,10 @@ X-Previo-Hotel-ID: {hotId}
 ## Hotel 
 + hotId: 2342 (number, required) - The unique identifier of the hotel
 + name: Kubínos (string, required) - Name of the hotel
+
+## CodeBook
++ premisesStates (array[PremisesState])
+
+##PremisesState
++ ocsId: 1 (number, required) - The unique identifier for premise state
++ name: untidy (string, required) - Name of premises state
