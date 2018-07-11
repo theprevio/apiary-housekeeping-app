@@ -102,9 +102,9 @@ X-Previo-Hotel-ID: {hotId}
 + Response 200 (application/json)
     + Attributes (Premise)
 
-## Fault list for premise [/premise/fault]
+## Fault on premises [/fault]
 
-### Get fault list [GET /premise/fault{?objId}]
+### Get fault list [GET /fault{?objId}]
 - Return fault order by created, but resolved defects only with the old resolved two days.
 
 + Parameters
@@ -202,7 +202,6 @@ X-Previo-Hotel-ID: {hotId}
 + privileges (Privileges, required) - Permission for each operations
 
 ## ModulePermission
-+ paysApp: true (boolean, required) - Is user pay for aplication
 + cleaning: true (boolean, required) - Permission for view into cleaning module
 + faults: true (boolean, required) - Permission for view into fault module
 + minibar: true (boolean, required) - Permission for view into minibar module
@@ -237,7 +236,7 @@ X-Previo-Hotel-ID: {hotId}
 + fasId: 1 (number, required) - Fault status (1-fixed, 2-not fixed, 3-beeing repaired)
 + description: Nejde zapnout televize, zase hosti ukradli baterie... (string, optional) - Description of fault
 + photo: data:image/gif;base64,R0lGODlhPQBEAP... (string, optional) - POST - Photo decoded in base64, GET - url https://....
-+ created: `2017-01-01T00:00:00Z` (string, optional) - Date of created fault (ISO 8601)
++ created: `2017-01-01T00:00:00Z` (string, required) - Date of created fault (ISO 8601)
 
 ## Hotel 
 + hotId: 2342 (number, required) - The unique identifier of the hotel
@@ -245,7 +244,17 @@ X-Previo-Hotel-ID: {hotId}
 
 ## CodeBook
 + premisesStates (array[PremisesState])
++ faultStates (array[FaultState])
++ faultTypes (array[FaultType])
 
-##PremisesState
+## PremisesState
 + ocsId: 1 (number, required) - The unique identifier for premise state
 + name: untidy (string, required) - Name of premises state
+
+## FaultState
++ fasId: 1 (number, required) -  The unique identifier for fault state
++ name: fixed (string, required) - Name of fault state
+
+## FaultType
++ fatId: 1 (number, required) - The unique identifier for fault type
++ name: shower (string, required) - Name of fault type
