@@ -224,6 +224,7 @@ X-Previo-Hotel-ID: {hotId}
 + isCheckIn: false (boolean, required) - There is a reservation starting today and guests allready checked in
 + checkOut: `2017-01-01T00:00:00` (string, optional) - Date of todays check-out (ISO 8601)
 + checkIn: `2017-01-01T00:00:00` (string, optional) - Date of todays check-in (ISO 8601)
++ term (Term, optional) - Term of ongoing reservation, if there are two reservations today
 + ocsId: 1 (number, required) - The unique identifier for premise state (1 - untidy, 2 - tidy, 3 - inspection) 
 + numOfFaults: 2 (number, required) - Returns count of fault on premise at state not fixed and beeing repaired
 + guestName: Inženýrka Tejfarová (string, optional) - If there is ongoing reservation, guestName will be the first guest of this reservation with name, otherwise this will be name of guest of the first reservation in the future
@@ -246,6 +247,10 @@ X-Previo-Hotel-ID: {hotId}
 + premisesStates (array[PremisesState])
 + faultStates (array[FaultState])
 + faultTypes (array[FaultType])
+
+## Term
++ from: `2017-01-01T00:00:00` (string, optional) - (ISO 8601)
++ to: `2017-01-05T14:00:00` (string, optional) - (ISO 8601)
 
 ## PremisesState
 + ocsId: 1 (number, required) - The unique identifier for premise state
