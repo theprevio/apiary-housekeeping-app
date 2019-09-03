@@ -33,6 +33,25 @@ X-Previo-App-ID: 2
 X-Previo-Hotel-ID: {hotId}
 ```
 
+## Notification - OneSignal
+ - On login
+   - Set tag `userId = 7321`
+ - On logout
+   - Remove tag `userId`
+
+### OneSignal data
+ ```
+ {
+   type: 1,
+   action: 1,
+ }
+ ```
+ - `type`
+  - `1` - Silent notification (refresh data in background)
+  - `2` - Notification
+  
+ - `action` (the data specification that contains the data object)
+
 ## User info [/user]
 
 ### Get user info [GET /user{?versionCode}{?os}]
@@ -51,6 +70,18 @@ X-Previo-Hotel-ID: {hotId}
 + Response 200 (application/json)
     + Attributes (UserInfo)
 
+### Save new notification setting [PUT /user/notification]
+
++ Request (application/json)
+    + Headers
+    
+            X-Previo-Language-ID: 1
+            X-Previo-App-ID: 2
+            X-Previo-Hotel-ID: 14690
+
+    + Attributes (Notification)
+    
++ Response 200 (application/json)
 
 ## Premises [/premise]
 
@@ -66,10 +97,8 @@ X-Previo-Hotel-ID: {hotId}
     
 + Response 200 (application/json)
     + Attributes (array[Premise])
-    
-### Get premise [GET /premise{?objId}]
 
-`In development` 
+### Get premise [GET /premise{?objId}]
 
 + Parameters
     + objId: 2342 (number, required) - The unique identifier of the premise
@@ -85,8 +114,6 @@ X-Previo-Hotel-ID: {hotId}
     + Attributes (Premise)
 
 ### Set premise clean status [PUT /premise/status{?objId}{?ocsId}]
-
-`In development`
 
 + Parameters
     + objId: 2342 (number, required) - The unique identifier of the premise
@@ -122,8 +149,6 @@ X-Previo-Hotel-ID: {hotId}
 
 ### Add new fault [POST /fault{?objId}]
 
-`In development`
-
 + Parameters
     + objId: 654567 (number,required) - The unique identifier for premise
 
@@ -134,7 +159,7 @@ X-Previo-Hotel-ID: {hotId}
             X-Previo-App-ID: 2
             X-Previo-Hotel-ID: 14690
 
-    + Attributes (Fault)
+    + Attributes (FaultAdd)
     
 + Response 200 (application/json)
     + Attributes (Fault)
@@ -190,11 +215,13 @@ X-Previo-Hotel-ID: {hotId}
 ## Data Structure
 
 ## UserInfo
-+ name: Kubínos (string, required) - Username login of user
++ useId: 2313 (number, required) - The unique identifier of the user
++ name: Marek Novák (string, required) - Username login of user
 + lanId: 1 (number, required) - The unique identifier for language, which user has set in Previo
 + paysApp: true (boolean, required) - If hotel pay for Housekeeping module - DEPRECATED
 + versionSupported: true (boolean, required) - Is application version supported
 + newerVersion: true (boolean, required) - Is newer aplication version
++ notificationSetting (Notification, required) - Setting of notification
 + permission (Permission, required) - Listed permissions for users
 
 ## Permission 
@@ -224,19 +251,34 @@ X-Previo-Hotel-ID: {hotId}
 + isCheckIn: false (boolean, required) - There is a reservation starting today and guests allready checked in
 + checkOut: `2017-01-01T00:00:00` (string, optional) - Date of todays check-out (ISO 8601)
 + checkIn: `2017-01-01T00:00:00` (string, optional) - Date of todays check-in (ISO 8601)
-+ term (Term, optional) - Term of ongoing reservation, if there are two reservations today
++ term (Term, optional) - Term of ongoing reservation, if there are two reservations today. Or term of first reservation in the future, max 8days in future
 + ocsId: 1 (number, required) - The unique identifier for premise state (1 - untidy, 2 - tidy, 3 - inspection) 
 + numOfFaults: 2 (number, required) - Returns count of fault on premise at state not fixed and beeing repaired
-+ guestName: Inženýrka Tejfarová (string, optional) - If there is ongoing reservation, guestName will be the first guest of this reservation with name, otherwise this will be name of guest of the first reservation in the future
-+ guestCount: 4 (number, optional) - Number of guests (If there is ongoing reservation, this will be guest cout of this reservation, otherwise this will be guest count of the first reservation in the future) 
++ guestName: Inženýrka Tejfarová (string, optional) - If there is ongoing reservation, guestName will be the first guest of this reservation with name, otherwise this will be name of guest of the first reservation in the future, max 8days in future)
++ guestCount: 4 (number, optional) - Number of guests (If there is ongoing reservation, this will be guest cout of this reservation, otherwise this will be guest count of the first reservation in the future, max 8days in future) 
 + note: Vyzdobit pokoj růžemi (string, optional) - Reservation note
 
-##Fault
+## Notification
++ guestDeparture: true (boolean, required) - Guest departure notification
++ newTodayReservation: true (boolean, required) - New reservation for today
++ newDefect: true (boolean, required) - New defect notification
+
+##FaultAdd
 + fauId: 23412 (number, optional) - The unique identifier of fault
 + fatId: 1 (number, required) - Type od fault (1 - shower, 2 - TV, 3 - door lock, 4 - heating, 5 - light, 6 - other)
 + fasId: 1 (number, required) - Fault status (1-fixed, 2-not fixed, 3-beeing repaired)
 + description: Nejde zapnout televize, zase hosti ukradli baterie... (string, optional) - Description of fault
-+ photo: data:image/gif;base64,R0lGODlhPQBEAP... (string, optional) - POST - Photo decoded in base64, GET - url https://....
++ photo: `data:image/gif;base64,R0lGODlhPQBEAP...` (string, optional) - Photo decoded in base64 (deprecated)
++ photos: `data:image/gif;base64_R0lGODlhPQBEAP...`, `data:image/gif;base64_R0lGODlhPQBEAP...` (array, required) - Array of photos URL
++ created: `2017-01-01T00:00:00Z` (string, required) - Date of created fault (ISO 8601)
+
+##Fault
++ fauId: 23412 (number, required) - The unique identifier of fault
++ fatId: 1 (number, required) - Type od fault (1 - shower, 2 - TV, 3 - door lock, 4 - heating, 5 - light, 6 - other)
++ fasId: 1 (number, required) - Fault status (1-fixed, 2-not fixed, 3-beeing repaired)
++ description: Nejde zapnout televize, zase hosti ukradli baterie... (string, optional) - Description of fault
++ photo: `https://www.previo.cz/images/logo/logo-previo-@2x.png` (string, optional) - Photo url (deprecated)
++ photos: `https://www.previo.cz/images/logo/logo-previo-@2x.png`, `https://www.previo.cz/images/logo/logo-previo-@2x.png` (array, required) - Array of photos URL
 + created: `2017-01-01T00:00:00Z` (string, required) - Date of created fault (ISO 8601)
 
 ## Hotel 
