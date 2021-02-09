@@ -113,7 +113,7 @@ X-Previo-Hotel-ID: {hotId}
 + Response 200 (application/json)
     + Attributes (Premise)
 
-### Set premise clean status [PUT /premise/status{?objId}{?ocsId}]
+### Set premise clean status [PUT /premise/status]
 
 + Request (application/json)
     + Attributes (PremiseStatus)
@@ -161,7 +161,7 @@ X-Previo-Hotel-ID: {hotId}
 + Response 200 (application/json)
     + Attributes (Fault)
 
-### Set premise fault status [PUT /fault/status{?fauId}{?fasId}]
+### Set premise fault status [PUT /fault/status]
     
 + Request (application/json)
     + Headers
@@ -174,10 +174,7 @@ X-Previo-Hotel-ID: {hotId}
 
 + Response 200 (application/json)
 
-### Delete fault [DELETE /fault{?fauId}]
-
-+ Parameters
-    + fauId: 654567 (number,required) - The unique identifier for fault
+### Delete fault [DELETE /fault]
 
 + Request (application/json)
     + Headers
@@ -185,6 +182,8 @@ X-Previo-Hotel-ID: {hotId}
             X-Previo-Language-ID: 1
             X-Previo-App-ID: 2
             X-Previo-Hotel-ID: 14690
+            
+    + Attributes (FaultDelete)
     
 + Response 200 (application/json)
 
@@ -272,6 +271,9 @@ X-Previo-Hotel-ID: {hotId}
 ##FaultChange
 + fauId: 23412 (number, required) - The unique identifier of fault
 + fasId: 1 (number, required) - Fault status (1-fixed, 2-not fixed, 3-beeing repaired)
+
+##FaultDelete
++ fauId: 23412 (number, required) - The unique identifier of fault
 
 ##FaultAdd
 + fauId: 23412 (number, optional) - The unique identifier of fault
