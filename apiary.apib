@@ -162,10 +162,15 @@ X-Previo-Hotel-ID: {hotId}
     + Attributes (Fault)
 
 ### Set premise fault status [PUT /fault/status{?fauId}{?fasId}]
+    
++ Request (application/json)
+    + Headers
+    
+            X-Previo-Language-ID: 1
+            X-Previo-App-ID: 2
+            X-Previo-Hotel-ID: 14690
 
-+ Parameters
-    + fauId: 23412 (number, required) - The unique identifier of fault
-    + fasId: 1 (number, required) - Fault status (1-fixed, 2-not fixed, 3-beeing repaired)
+    + Attributes (FaultChange)
 
 + Response 200 (application/json)
 
@@ -263,6 +268,10 @@ X-Previo-Hotel-ID: {hotId}
 + guestDeparture: true (boolean, required) - Guest departure notification
 + newTodayReservation: true (boolean, required) - New reservation for today
 + newDefect: true (boolean, required) - New defect notification
+
+##FaultChange
++ fauId: 23412 (number, required) - The unique identifier of fault
++ fasId: 1 (number, required) - Fault status (1-fixed, 2-not fixed, 3-beeing repaired)
 
 ##FaultAdd
 + fauId: 23412 (number, optional) - The unique identifier of fault
