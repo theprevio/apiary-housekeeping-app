@@ -115,11 +115,8 @@ X-Previo-Hotel-ID: {hotId}
 
 ### Set premise clean status [PUT /premise/status{?objId}{?ocsId}]
 
-+ Parameters
-    + objId: 2342 (number, required) - The unique identifier of the premise
-    + ocsId: 1 (number, required) - The unique identifier of status for premise (1 - untidy, 2 - tidy, 3 - inspection)
-    
 + Request (application/json)
+    + Attributes (PremiseStatus)
     + Headers
     
             X-Previo-Language-ID: 1
@@ -213,6 +210,10 @@ X-Previo-Hotel-ID: {hotId}
 
 
 ## Data Structure
+
+## PremiseStatus
++ objId: 123 (number, required) - The unique identifier of the premis
++ ocsId: 1 (number, required) - The unique identifier of status for premise (1 - untidy, 2 - tidy, 3 - inspection)
 
 ## UserInfo
 + useId: 2313 (number, required) - The unique identifier of the user
