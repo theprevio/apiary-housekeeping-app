@@ -51,6 +51,40 @@ X-Previo-Hotel-ID: {hotId}
   - `2` - Notification
   
  - `action` (the data specification that contains the data object)
+ 
+## Authentication [/authentication]
+
+### Get access token [GET /authentication/accessToken]
+
++ Request (application/json)
+    + Headers
+
+            Accept-Language: cs
+            X-Previo-App-ID: 3
+            User-Agent: iPhoneX - Model name of user device
+            X-Device-UUID: 765ce9ec-29f2-423a-9724-6512cef6bf19 
+    
++ Response 200 (application/json)
+    + Attributes (Authentication)
+    
++ Response 400 (application/json) 
+    + Attributes (AuthError)
+
+### Refresh access token [GET /authentication/refreshToken{?refreshToken}]
+
++ Request (application/json)
+    + Headers
+
+            Accept-Language: cs
+            X-Previo-App-ID: 3
+
++ Parameters
+    + refreshToken: 7e8HVcDWhnHnQCL8wqvKM95c7e8HVcDW (string,required) - The refresh token.
+    
++ Response 200 (application/json)
+    
++ Response 400 (application/json) 
+    + Attributes (AuthRefreshError)
 
 ## User info [/user]
 
@@ -214,6 +248,25 @@ X-Previo-Hotel-ID: {hotId}
 
 
 ## Data Structure
+
+## AuthError
++ code: 400 (number,required)
++ error: Failed to authenticate pin code (string,required)
++ message: Nepodařilo se ověřit pin (string,required)
+
+## AuthRefreshError
++ code: 400 (number,required)
++ error: Failed to refresh access token (string,required)
+
+## AuthTimeoutError
++ code: 401 (number,required)
++ error: Authentication token expired (string,required)
++ message: Vypršela platnost autorizačního tokenu (string,required)
+
+## Authentication
++ accessToken: 7e8HVcDWhnHnQCL8wqvKM95c7e8HVcDW (string,required) - Access token to be used when acessing resources.
++ tokenType: Bearer (string, required) - The type of the token issued - in this case it will allways be Bearer.
++ refreshToken: 6T8pcDWhnHnQCL8wqvKM95c7e8HVcDW (string,required) - The refresh token, which can be used to obtain new access tokens.Re
 
 ## PremiseStatus
 + objId: 123 (number, required) - The unique identifier of the premis
