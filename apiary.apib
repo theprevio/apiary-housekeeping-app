@@ -195,8 +195,9 @@ X-Previo-Hotel-ID: {hotId}
 + Response 200 (application/json)
     + Attributes (Fault)
 
-### Set premise fault status [PUT /fault/status]
-    
+
+### Edit fault [PUT /fault]
+
 + Request (application/json)
     + Headers
     
@@ -204,9 +205,10 @@ X-Previo-Hotel-ID: {hotId}
             X-Previo-App-ID: 2
             X-Previo-Hotel-ID: 14690
 
-    + Attributes (FaultChange)
-
+    + Attributes (Fault)
+    
 + Response 200 (application/json)
+    + Attributes (Fault)
 
 ### Delete fault [DELETE /fault]
 
@@ -312,8 +314,9 @@ X-Previo-Hotel-ID: {hotId}
 + term (Term, optional) - Term of ongoing reservation, if there are two reservations today. Or term of first reservation in the future, max 8days in future
 + ocsId: 1 (number, required) - The unique identifier for premise state (1 - untidy, 2 - tidy, 3 - inspection) 
 + numOfFaults: 2 (number, required) - Returns count of fault on premise at state not fixed and beeing repaired
-+ guestName: Inženýrka Tejfarová (string, optional) - If there is ongoing reservation, guestName will be the first guest of this reservation with name, otherwise this will be name of guest of the first reservation in the future, max 8days in future)
-+ guestCount: 4 (number, optional) - Number of guests (If there is ongoing reservation, this will be guest cout of this reservation, otherwise this will be guest count of the first reservation in the future, max 8days in future) 
++ guestName: Inženýrka Tejfarová (string, optional) - If there is ongoing reservation, guestName will be the first guest of this reservation with name, otherwise this will be name of guest of the first reservation in the future, max 8days in future
++ guestCouId: 1 (number, optional) - If there is ongoing reservation, guestCouId will be the first guest of this reservation guest with name, otherwise this will be country ID of guest of the first reservation in the future, max 8days in future
++ guestCount: 4 (number, optional) - Number of guests (If there is ongoing reservation, this will be guest cout of this reservation, otherwise this will be guest count of the first reservation in the future, max 8days in future
 + note: Vyzdobit pokoj růžemi (string, optional) - Reservation note
 
 ## Notification
@@ -342,7 +345,6 @@ X-Previo-Hotel-ID: {hotId}
 + fatId: 1 (number, required) - Type od fault (1 - shower, 2 - TV, 3 - door lock, 4 - heating, 5 - light, 6 - other)
 + fasId: 1 (number, required) - Fault status (1-fixed, 2-not fixed, 3-beeing repaired)
 + description: Nejde zapnout televize, zase hosti ukradli baterie... (string, optional) - Description of fault
-+ photo: `https://www.previo.cz/images/logo/logo-previo-@2x.png` (string, optional) - Photo url (deprecated)
 + photos: `https://www.previo.cz/images/logo/logo-previo-@2x.png`, `https://www.previo.cz/images/logo/logo-previo-@2x.png` (array, required) - Array of photos URL
 + created: `2017-01-01T00:00:00Z` (string, required) - Date of created fault (ISO 8601)
 
