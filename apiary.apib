@@ -223,11 +223,9 @@ X-Previo-Hotel-ID: {hotId}
     
 + Response 200 (application/json)
 
-## List of hotels [/hotel]
+## Hotel [/hotel]
 
-### Get hotel list [GET /hotel]
-
-`In development`
+### Get list of hotels [GET /hotel]
 
 + Request (application/json)
     + Headers
@@ -238,6 +236,23 @@ X-Previo-Hotel-ID: {hotId}
     
 + Response 200 (application/json)
     + Attributes (array[Hotel])
+
+
+### Get hotel [GET /hotel{?hotId}]
+
++ Parameters
+    + hotId: 654567 (number,required) - The unique identifier of hotel
+
+
++ Request (application/json)
+    + Headers
+    
+            X-Previo-Language-ID: 1
+            X-Previo-App-ID: 2
+            X-Previo-Hotel-ID: 14690
+    
++ Response 200 (application/json)
+    + Attributes (HotelInfo)
 
 ## System [/system]
 
@@ -352,10 +367,16 @@ X-Previo-Hotel-ID: {hotId}
 + hotId: 2342 (number, required) - The unique identifier of the hotel
 + name: Kubínos (string, required) - Name of the hotel
 
+## HotelInfo
++ hotId: 2342 (number, required) - The unique identifier of the hotel
++ name: Kubínos (string, required) - Name of the hotel
++ cleanningSetting (CleanningSetting, required) - Hotel setting of cleaning
+
+## CleanningSetting
++ enableCheckUpCleaning: true (boolean, required) - Is hotel using feature "Check-up cleaning"
+
 ## CodeBook
-+ premisesStates (array[PremisesState])
-+ faultStates (array[FaultState])
-+ faultTypes (array[FaultType])
++ countries (array[Country])
 
 ## Term
 + from: `2017-01-01T00:00:00` (string, optional) - (ISO 8601)
@@ -372,3 +393,8 @@ X-Previo-Hotel-ID: {hotId}
 ## FaultType
 + fatId: 1 (number, required) - The unique identifier for fault type
 + name: shower (string, required) - Name of fault type
+
+## Country
++ couId: 1 (number, required) - The unique identifier for country
++ name: Czech Republic (string, required) - Name of country
++ code: CZ (string, required) - Code of country
